@@ -25,11 +25,10 @@ class Account(TenantModel):
     domain = models.CharField(max_length=255)
     subdomain = models.CharField(max_length=255)
     country = models.ForeignKey(Country, on_delete=models.CASCADE)
+    
+    class TenantMeta:
+        tenant_field_name = 'id'
 
-    tenant_id = "id"
-
-    def __str__(self):
-        return "{}".format(self.name)
 
 
 
@@ -38,7 +37,8 @@ class Manager(TenantModel):
     account = models.ForeignKey(
         Account, on_delete=models.CASCADE, related_name="managers"
     )
-    tenant_id = "account_id"
+    class TenantMeta:
+        tenant_field_name = 'account_id'
     class Meta:
         constraints = [
             models.UniqueConstraint(fields=['id', 'account_id'], name='unique_manager_account')
@@ -51,16 +51,15 @@ class Project(TenantModel):
         Account, related_name="projects", on_delete=models.CASCADE
     )
     managers = models.ManyToManyField(Manager, through="ProjectManager")
-    tenant_id = "account_id"
+    class TenantMeta:
+        tenant_field_name = 'account_id'
+
     
     class Meta:
         constraints = [
             models.UniqueConstraint(fields=['id', 'account_id'], name='unique_project_account')
         ]
 
-
-    def __str__(self):
-        return "{} ({})".format(self.name, self.account)
 
 
 class ProjectManager(TenantModel):
@@ -70,4 +69,6 @@ class ProjectManager(TenantModel):
     manager = TenantForeignKey(Manager, on_delete=models.CASCADE)
     account = models.ForeignKey(Account, on_delete=models.CASCADE)
 
-    tenant_id = "account_id"
+    class TenantMeta:
+        tenant_field_name = 'account_id'
+
