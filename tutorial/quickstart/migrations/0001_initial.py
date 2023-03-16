@@ -77,59 +77,7 @@ class Migration(migrations.Migration):
             ],
             bases=(django_multitenant.mixins.TenantModelMixin, models.Model),
         ),
-        migrations.CreateModel(
-            name="MigrationTestModel",
-            fields=[
-                (
-                    "id",
-                    models.BigAutoField(
-                        auto_created=True,
-                        primary_key=True,
-                        serialize=False,
-                        verbose_name="ID",
-                    ),
-                ),
-                ("name", models.CharField(max_length=255)),
-            ],
-            options={
-                "abstract": False,
-            },
-            bases=(django_multitenant.mixins.TenantModelMixin, models.Model),
-        ),
-        migrations.CreateModel(
-            name="MigrationTestReferenceModel",
-            fields=[
-                (
-                    "id",
-                    models.BigAutoField(
-                        auto_created=True,
-                        primary_key=True,
-                        serialize=False,
-                        verbose_name="ID",
-                    ),
-                ),
-                ("name", models.CharField(max_length=255)),
-            ],
-        ),
-        migrations.CreateModel(
-            name="Organization",
-            fields=[
-                (
-                    "id",
-                    models.UUIDField(
-                        default=uuid.uuid4,
-                        editable=False,
-                        primary_key=True,
-                        serialize=False,
-                    ),
-                ),
-                ("name", models.CharField(max_length=255)),
-            ],
-            options={
-                "abstract": False,
-            },
-            bases=(django_multitenant.mixins.TenantModelMixin, models.Model),
-        ),
+       
         migrations.CreateModel(
             name="Project",
             fields=[
@@ -154,206 +102,7 @@ class Migration(migrations.Migration):
             ],
             bases=(django_multitenant.mixins.TenantModelMixin, models.Model),
         ),
-        migrations.CreateModel(
-            name="TenantNotIdModel",
-            fields=[
-                (
-                    "tenant_column",
-                    models.IntegerField(
-                        editable=False, primary_key=True, serialize=False
-                    ),
-                ),
-                ("name", models.CharField(max_length=255)),
-            ],
-            options={
-                "abstract": False,
-            },
-            bases=(django_multitenant.mixins.TenantModelMixin, models.Model),
-        ),
-        migrations.CreateModel(
-            name="UnscopedModel",
-            fields=[
-                (
-                    "id",
-                    models.BigAutoField(
-                        auto_created=True,
-                        primary_key=True,
-                        serialize=False,
-                        verbose_name="ID",
-                    ),
-                ),
-                ("name", models.CharField(max_length=255)),
-            ],
-        ),
-        migrations.CreateModel(
-            name="Task",
-            fields=[
-                (
-                    "id",
-                    models.BigAutoField(
-                        auto_created=True,
-                        primary_key=True,
-                        serialize=False,
-                        verbose_name="ID",
-                    ),
-                ),
-                ("name", models.CharField(max_length=255)),
-                ("opened", models.BooleanField(default=True)),
-                (
-                    "account",
-                    models.ForeignKey(
-                        on_delete=django.db.models.deletion.CASCADE,
-                        to="quickstart.account",
-                    ),
-                ),
-                (
-                    "parent",
-                    models.ForeignKey(
-                        blank=True,
-                        db_index=False,
-                        null=True,
-                        on_delete=django.db.models.deletion.CASCADE,
-                        to="quickstart.task",
-                    ),
-                ),
-                (
-                    "project",
-                    models.ForeignKey(
-                        on_delete=django.db.models.deletion.CASCADE,
-                        related_name="tasks",
-                        to="quickstart.project",
-                    ),
-                ),
-            ],
-            bases=(django_multitenant.mixins.TenantModelMixin, models.Model),
-        ),
-        migrations.CreateModel(
-            name="SubTask",
-            fields=[
-                (
-                    "id",
-                    models.BigAutoField(
-                        auto_created=True,
-                        primary_key=True,
-                        serialize=False,
-                        verbose_name="ID",
-                    ),
-                ),
-                ("name", models.CharField(max_length=255)),
-                ("type", models.CharField(max_length=255)),
-                (
-                    "account",
-                    models.ForeignKey(
-                        on_delete=django.db.models.deletion.CASCADE,
-                        to="quickstart.account",
-                    ),
-                ),
-                (
-                    "project",
-                    django_multitenant.fields.TenantForeignKey(
-                        null=True,
-                        on_delete=django.db.models.deletion.CASCADE,
-                        to="quickstart.project",
-                    ),
-                ),
-                (
-                    "task",
-                    django_multitenant.fields.TenantForeignKey(
-                        on_delete=django.db.models.deletion.CASCADE,
-                        to="quickstart.task",
-                    ),
-                ),
-            ],
-            options={
-                "abstract": False,
-            },
-            bases=(django_multitenant.mixins.TenantModelMixin, models.Model),
-        ),
-        migrations.CreateModel(
-            name="SomeRelatedModel",
-            fields=[
-                (
-                    "id",
-                    models.BigAutoField(
-                        auto_created=True,
-                        primary_key=True,
-                        serialize=False,
-                        verbose_name="ID",
-                    ),
-                ),
-                ("name", models.CharField(max_length=255)),
-                (
-                    "related_tenant",
-                    models.ForeignKey(
-                        on_delete=django.db.models.deletion.CASCADE,
-                        to="quickstart.tenantnotidmodel",
-                    ),
-                ),
-            ],
-            options={
-                "abstract": False,
-            },
-            bases=(django_multitenant.mixins.TenantModelMixin, models.Model),
-        ),
-        migrations.CreateModel(
-            name="Revenue",
-            fields=[
-                (
-                    "id",
-                    models.BigAutoField(
-                        auto_created=True,
-                        primary_key=True,
-                        serialize=False,
-                        verbose_name="ID",
-                    ),
-                ),
-                ("value", models.CharField(max_length=30)),
-                (
-                    "acc",
-                    models.ForeignKey(
-                        on_delete=django.db.models.deletion.CASCADE,
-                        to="quickstart.account",
-                    ),
-                ),
-                (
-                    "project",
-                    django_multitenant.fields.TenantForeignKey(
-                        on_delete=django.db.models.deletion.CASCADE,
-                        to="quickstart.project",
-                    ),
-                ),
-            ],
-            options={
-                "abstract": False,
-            },
-            bases=(django_multitenant.mixins.TenantModelMixin, models.Model),
-        ),
-        migrations.CreateModel(
-            name="Record",
-            fields=[
-                (
-                    "id",
-                    models.UUIDField(
-                        default=uuid.uuid4,
-                        editable=False,
-                        primary_key=True,
-                        serialize=False,
-                    ),
-                ),
-                ("name", models.CharField(max_length=255)),
-                (
-                    "organization",
-                    models.ForeignKey(
-                        on_delete=django.db.models.deletion.CASCADE,
-                        to="quickstart.organization",
-                    ),
-                ),
-            ],
-            options={
-                "abstract": False,
-            },
-            bases=(django_multitenant.mixins.TenantModelMixin, models.Model),
-        ),
+        
         migrations.CreateModel(
             name="ProjectManager",
             fields=[
@@ -401,62 +150,8 @@ class Migration(migrations.Migration):
                 through="quickstart.ProjectManager", to="quickstart.manager"
             ),
         ),
-        migrations.CreateModel(
-            name="ModelConfig",
-            fields=[
-                (
-                    "id",
-                    models.BigAutoField(
-                        auto_created=True,
-                        primary_key=True,
-                        serialize=False,
-                        verbose_name="ID",
-                    ),
-                ),
-                ("name", models.CharField(max_length=255)),
-                (
-                    "account",
-                    models.ForeignKey(
-                        on_delete=django.db.models.deletion.CASCADE,
-                        related_name="configs",
-                        to="quickstart.account",
-                    ),
-                ),
-            ],
-            bases=(django_multitenant.mixins.TenantModelMixin, models.Model),
-        ),
-        migrations.CreateModel(
-            name="AliasedTask",
-            fields=[
-                (
-                    "id",
-                    models.BigAutoField(
-                        auto_created=True,
-                        primary_key=True,
-                        serialize=False,
-                        verbose_name="ID",
-                    ),
-                ),
-                (
-                    "account",
-                    models.ForeignKey(
-                        on_delete=django.db.models.deletion.CASCADE,
-                        to="quickstart.account",
-                    ),
-                ),
-                (
-                    "project_alias",
-                    django_multitenant.fields.TenantForeignKey(
-                        on_delete=django.db.models.deletion.CASCADE,
-                        to="quickstart.project",
-                    ),
-                ),
-            ],
-            options={
-                "abstract": False,
-            },
-            bases=(django_multitenant.mixins.TenantModelMixin, models.Model),
-        ),
+       
+      
         migrations.AddField(
             model_name="account",
             name="country",
@@ -471,22 +166,11 @@ class Migration(migrations.Migration):
                 on_delete=django.db.models.deletion.CASCADE, to=settings.AUTH_USER_MODEL
             ),
         ),
-        migrations.AddConstraint(
-            model_name="task",
-            constraint=models.UniqueConstraint(
-                fields=("id", "account_id"), name="unique_task_account"
-            ),
-        ),
+
         migrations.AddConstraint(
             model_name="project",
             constraint=models.UniqueConstraint(
                 fields=("id", "account_id"), name="unique_project_account"
-            ),
-        ),
-        migrations.AddConstraint(
-            model_name="modelconfig",
-            constraint=models.UniqueConstraint(
-                fields=("id", "account_id"), name="unique_modelconfig_account"
             ),
         ),
         migrations.AddConstraint(
